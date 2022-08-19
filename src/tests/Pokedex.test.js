@@ -1,16 +1,8 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import renderWithRouter from '../renderWithRouter';
 import App from '../App';
-
-const renderWithRouter = (component) => {
-  const history = createMemoryHistory();
-  return ({
-    ...render(<Router history={ history }>{component}</Router>), history,
-  });
-};
 
 test('Teste se a página contém um heading h2', () => {
   renderWithRouter(<App />);
@@ -23,16 +15,6 @@ test('Teste se é exibido o próximo pokémon da lista', () => {
   renderWithRouter(<App />);
   const botaoDeFogo = screen.getByRole('button', { name: 'Fire' });
   const botao = screen.getByRole('button', { name: 'Próximo pokémon' });
-
-  // const PokemonsDeFogo = [{
-  //   name: 'Charmander',
-  //   type: 'Fire',
-  // },
-  // { name: 'Rapidash',
-  //   type: 'Fire',
-  // },
-
-  // ];
   userEvent.click(botaoDeFogo);
   const pokemonEncontrado = screen.getByText('Charmander');
   expect(pokemonEncontrado).toBeInTheDocument();

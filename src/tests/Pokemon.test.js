@@ -1,18 +1,10 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import renderWithRouter from '../renderWithRouter';
 import App from '../App';
 
-const linkp = '/pokemons/25';
-
-const renderWithRouter = (component) => {
-  const history = createMemoryHistory();
-  return ({
-    ...render(<Router history={ history }>{component}</Router>), history,
-  });
-};
+const url = '/pokemons/25';
 
 test('Teste se é renderizado o Card', () => {
   renderWithRouter(<App />);
@@ -41,19 +33,19 @@ test('este se o card do pokémon indicado na Pokédex contém um link de navega�
   const linkPokemon = screen.getByRole('link', { name: /more details/i });
   expect(linkPokemon).toBeInTheDocument();
   userEvent.click(linkPokemon);
-  expect(history.location.pathname).toBe(linkp);
+  expect(history.location.pathname).toBe(url);
 });
 
 test('Teste se ao clicar no link , é feito o redirecionamento', () => {
   const { history } = renderWithRouter(<App />);
-  history.push(linkp);
+  history.push(url);
   const titulo = screen.getByText('Pikachu Details');
   expect(titulo).toBeInTheDocument();
 });
 
 test('Teste se tem o ícone de favoritos', () => {
   const { history } = renderWithRouter(<App />);
-  history.push(linkp);
+  history.push(url);
 
   const checkbox = screen.getByRole('checkbox');
   userEvent.click(checkbox);

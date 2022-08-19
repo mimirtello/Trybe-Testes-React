@@ -1,17 +1,10 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import App from '../App';
+import renderWithRouter from '../renderWithRouter';
 
 const url = '/pokemons/25';
-const renderWithRouter = (component) => {
-  const history = createMemoryHistory();
-  return ({
-    ...render(<Router history={ history }>{component}</Router>), history,
-  });
-};
 
 test('Teste se as informações do pokémon selecionado são mostradas na tela:', () => {
   const { history } = renderWithRouter(<App />);
